@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+struct Stack {
+    int arr[MAX];
+    int top;
+};
+
+void initStack(struct Stack* stack) {
+    stack->top = -1;
+}
+
+int isStackFull(struct Stack* stack) {
+    return stack->top == MAX - 1;
+}
+
+int isStackEmpty(struct Stack* stack) {
+    return stack->top == -1;
+}
+
+void push(struct Stack* stack, int value) {
+    if (isStackFull(stack)) {
+        printf("Stack Overflow!\n");
+        return;
+    }
+    stack->arr[++stack->top] = value;
+    printf("Pushed %d onto the stack.\n", value);
+}
+
+int pop(struct Stack* stack) {
+    if (isStackEmpty(stack)) {
+        printf("Stack Underflow!\n");
+        return -1;
+    }
+    return stack->arr[stack->top--];
+}
+
+struct Queue {
+    int arr[MAX];
+    int front, rear;
+};
+
+void initQueue(struct Queue* queue) {
+    queue->front = -1;
+    queue->rear = -1;
+}
+
+int isQueueFull(struct Queue* queue) {
+    return queue->rear == MAX - 1;
+}
+
+int isQueueEmpty(struct Queue* queue) {
+    return queue->front == -1 || queue->front > queue->rear;
+}
+
+void enqueue(struct Queue* queue, int value) {
+    if (isQueueFull(queue)) {
+        printf("Queue Overflow!\n");
+        return;
+    }
+    if (queue->front == -1) queue->front = 0;
+    queue->arr[++queue->rear] = value;
+    printf("Enqueued %d into the queue.\n", value);
+}
+
+int dequeue(struct Queue* queue) {
+    if (isQueueEmpty(queue)) {
+        printf("Queue Underflow!\n");
+        return -1;
+    }
+    return queue->arr[queue->front++];
+}
+
+int main() {
+    struct Stack stack;
+    struct Queue queue;
+    initStack(&stack);
+    initQueue(&queue);
+
+    printf("Stack Operations:\n");
+    push(&stack, 10);
+    push(&stack, 20);
+    printf("Popped from stack: %d\n", pop(&stack));
+
+    printf("\nQueue Operations:\n");
+    enqueue(&queue, 30);
+    enqueue(&queue, 40);
+    printf("Dequeued from queue: %d\n", dequeue(&queue));
+
+    return 0;
+}
